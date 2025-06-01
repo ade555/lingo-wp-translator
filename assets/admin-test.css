@@ -1,0 +1,41 @@
+/* Basic styling for the test section */
+.lingo-test-section {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  padding: 20px;
+  margin-top: 25px;
+}
+
+.lingo-test-section textarea {
+  width: 100%;
+  max-width: 600px; /* Limit width for better readability */
+}
+
+.lingo-test-section select {
+  min-width: 150px;
+  padding: 5px;
+}
+
+#lingo-test-result-area {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 15px;
+}
+
+#lingo-test-result p {
+  margin: 0 0 10px 0; /* Add some space between result paragraphs */
+  line-height: 1.5;
+}
+
+#lingo-test-result p:last-child {
+  margin-bottom: 0;
+}
+
+/* WordPress spinner style */
+.spinner {
+  float: none;
+  vertical-align: middle;
+  margin-left: 10px;
+}
