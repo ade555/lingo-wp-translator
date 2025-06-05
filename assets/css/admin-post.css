@@ -1,0 +1,38 @@
+/* Styling for the Lingo Translation Meta Box */
+.lingo-post-translation-meta-box {
+  padding: 5px;
+}
+
+.lingo-post-translation-meta-box .lingo-translation-status {
+  margin-top: 15px;
+  background-color: #fcfcfc;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.lingo-post-translation-meta-box ul#lingo-existing-translations-list {
+  list-style: disc;
+  margin: 10px 0 0 20px;
+  padding: 0;
+}
+
+.lingo-post-translation-meta-box ul#lingo-existing-translations-list li {
+  margin-bottom: 5px;
+}
+
+.lingo-post-translation-meta-box hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.lingo-post-translation-meta-box .submit {
+  margin-top: 15px;
+}
+
+.lingo-post-translation-meta-box .spinner {
+  float: none;
+  vertical-align: middle;
+  margin-left: 10px;
+}

@@ -1,0 +1,3 @@
+Add language switcher for frontend
+Delete translations when original post gets deleted
+Prevent translation from one target locale to other target locales
