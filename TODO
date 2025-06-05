@@ -1,3 +1,4 @@
-Add language switcher for frontend
 Delete translations when original post gets deleted
 Prevent translation from one target locale to other target locales
+Automatically detect browser language for end users
+Publish translation posts automatically when the original post is published

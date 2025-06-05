@@ -55,6 +55,12 @@ class LingoLocalizationPlugin
         
         // Enqueue admin scripts and styles
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
+
+        // Enqueue frontend scripts and styles
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_scripts'));
+
+        // Frontend language switcher
+        add_shortcode('lingo_language_switcher', array($this, 'render_language_switcher'));
     }
 
     /**
@@ -168,7 +174,8 @@ class LingoLocalizationPlugin
     /**
      * Add a meta box to the post and page edit screens.
      */
-    public function add_post_translation_meta_box() {
+    public function add_post_translation_meta_box() 
+    {
         add_meta_box(
             'lingo_translation_meta_box',
             __( 'Lingo Translation', 'lingo-wp-translator' ),
@@ -182,7 +189,8 @@ class LingoLocalizationPlugin
     /**
      * Display the content of the post translation meta box.
      */
-    public function display_post_translation_meta_box($post) {
+    public function display_post_translation_meta_box($post) 
+    {
         // Get target locales from plugin options
         $target_locales_str = $this->options['target_locales'] ?? '';
         $target_locales = array_filter(array_map('trim', explode(',', $target_locales_str)));
@@ -199,6 +207,60 @@ class LingoLocalizationPlugin
         }
         
         include LINGO_PLUGIN_PATH . 'admin/post-meta-box.php';
+    }
+
+    /**
+     * Frontend language switcher shortcode.
+     * Displays links to all available translations of the current post.
+     * Usage: [lingo_language_switcher]
+     */
+    public function render_language_switcher($atts) {
+        // Only display on single posts/pages
+        if (!is_single() && !is_page()) {
+            return ''; // Don't show switcher on archives, home page, etc.
+        }
+
+        global $post;
+        if (!$post) {
+            return ''; // No post found
+        }
+
+        // Get the translation group for the current post
+        $translation_group = get_post_meta($post->ID, '_lingo_translation_group', true);
+        if (!is_array($translation_group) || empty($translation_group)) {
+            return ''; // No translations found for this post
+        }
+
+        // Get the current post's language from its taxonomy term
+        $current_post_language_terms = wp_get_post_terms($post->ID, 'lingo_language', array('fields' => 'names'));
+        $current_locale = !empty($current_post_language_terms) ? $current_post_language_terms[0] : '';
+
+        // If the current post's language isn't in the group, it's likely the original
+        // Add it to the group if not already present, ensuring it's part of the links.
+        if (!empty($current_locale) && !isset($translation_group[$current_locale])) {
+            $translation_group[$current_locale] = $post->ID;
+        }
+
+        // Sort the languages alphabetically for consistent display
+        ksort($translation_group);
+
+        $output = '<div class="lingo-language-switcher">';
+        $output .= '<ul>';
+
+        foreach ($translation_group as $locale => $translated_post_id) {
+            $link_class = ($locale === $current_locale) ? 'class="current-language"' : '';
+            $post_link = get_permalink($translated_post_id);
+
+            // Double check if post exists and is published (or desired status)
+            if ($post_link && get_post_status($translated_post_id) === 'publish') { // Only show published translations
+                 $output .= '<li><a href="' . esc_url($post_link) . '" ' . $link_class . '>' . esc_html(strtoupper($locale)) . '</a></li>';
+            }
+        }
+
+        $output .= '</ul>';
+        $output .= '</div>';
+
+        return $output;
     }
 
     /**
@@ -278,7 +340,8 @@ class LingoLocalizationPlugin
      * AJAX handler for post translation.
      * Creates a new translated post and links it to the original.
      */
-    public function ajax_translate_post() {
+    public function ajax_translate_post() 
+    {
         // Verify AJAX nonce and user capabilities
         check_ajax_referer('lingo_post_translation_nonce', 'nonce');
         if (!current_user_can('edit_posts')) { // Use 'edit_posts' capability for post actions
@@ -536,6 +599,18 @@ class LingoLocalizationPlugin
                 'translationGroup'  => $translation_group,
             ));
         }
+    }
+
+     /**
+     * Enqueue frontend scripts and styles.
+     */
+    public function enqueue_frontend_scripts() {
+        wp_enqueue_style(
+            'lingo-frontend-styles',
+            plugin_dir_url(__FILE__) . 'assets/css/frontend.css',
+            array(),
+            filemtime(plugin_dir_path(__FILE__) . 'assets/css/frontend.css')
+        );
     }
 
 

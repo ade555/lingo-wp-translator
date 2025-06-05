@@ -1,0 +1,49 @@
+.lingo-language-switcher {
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f8f8f8;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.lingo-language-switcher ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.lingo-language-switcher li {
+  margin: 0;
+  padding: 0;
+}
+
+.lingo-language-switcher a {
+  text-decoration: none;
+  color: #0073aa; /* WordPress blue */
+  font-weight: bold;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  transition: all 0.2s ease-in-out;
+}
+
+.lingo-language-switcher a:hover {
+  color: #005177;
+  border-color: #0073aa;
+}
+
+.lingo-language-switcher a.current-language {
+  background-color: #0073aa;
+  color: #fff;
+  border-color: #0073aa;
+  cursor: default;
+}
+
+.lingo-language-switcher a.current-language:hover {
+  background-color: #006087;
+  color: #fff;
+}
