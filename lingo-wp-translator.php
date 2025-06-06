@@ -2,7 +2,7 @@
 /**
  * Plugin Name:     Lingo WP Translator
  * Plugin URI:      https://github.com/ade555/lingo-wp-translator
- * Description:     Simplified Lingo.dev AI translation for testing strings in WordPress admin.
+ * Description:     Automated localization for WordPress using Lingo.dev AI translation engine
  * Version:         1.0.0
  * Author:          Ademola Thompson
  * License:         MIT
