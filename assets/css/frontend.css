@@ -1,49 +1,49 @@
-.lingo-language-switcher {
+.lingo-language-switcher-wrapper {
   margin: 20px 0;
   padding: 10px;
   background-color: #f8f8f8;
   border: 1px solid #eee;
   border-radius: 4px;
   text-align: center;
+  max-width: 200px; /* Limit width of the dropdown container */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.lingo-language-switcher ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+.lingo-language-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+  -webkit-appearance: none; /* Remove default browser styling for select */
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20fill%3D%22%23666%22%20d%3D%22M6.5%208.5L10%2012l3.5-3.5z%22%2F%3E%3C%2Fsvg%3E"); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
 }
 
-.lingo-language-switcher li {
-  margin: 0;
-  padding: 0;
-}
-
-.lingo-language-switcher a {
-  text-decoration: none;
-  color: #0073aa; /* WordPress blue */
-  font-weight: bold;
-  padding: 5px 10px;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  transition: all 0.2s ease-in-out;
-}
-
-.lingo-language-switcher a:hover {
-  color: #005177;
+.lingo-language-select:hover {
   border-color: #0073aa;
 }
 
-.lingo-language-switcher a.current-language {
-  background-color: #0073aa;
-  color: #fff;
+.lingo-language-select:focus {
+  outline: none;
   border-color: #0073aa;
-  cursor: default;
+  box-shadow: 0 0 0 1px #0073aa;
 }
 
-.lingo-language-switcher a.current-language:hover {
-  background-color: #006087;
-  color: #fff;
+/* Visually hidden text for accessibility */
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  word-wrap: normal !important;
 }

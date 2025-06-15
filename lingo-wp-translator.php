@@ -6,7 +6,7 @@
  * Version:         1.0.0
  * Author:          Ademola Thompson
  * License:         MIT
- * Text Domain:     lingo-wp-translator-test
+ * Text Domain:     lingo-wp-translator
  * Domain Path:     /languages
  */
 
@@ -211,13 +211,13 @@ class LingoLocalizationPlugin
 
     /**
      * Frontend language switcher shortcode.
-     * Displays links to all available translations of the current post.
-     * Usage: [lingo_language_switcher]
+     * Displays a dropdown to switch between available translations of the current post.
+     * Usage: add [lingo_language_switcher] as a shortcode
      */
     public function render_language_switcher($atts) {
         // Only display on single posts/pages
         if (!is_single() && !is_page()) {
-            return ''; // Don't show switcher on archives, home page, etc.
+            return '';
         }
 
         global $post;
@@ -244,20 +244,21 @@ class LingoLocalizationPlugin
         // Sort the languages alphabetically for consistent display
         ksort($translation_group);
 
-        $output = '<div class="lingo-language-switcher">';
-        $output .= '<ul>';
+        $output = '<div class="lingo-language-switcher-wrapper">'; // Wrapper div for styling
+        $output .= '<label for="lingo-language-select" class="screen-reader-text">' . __('Select Language', 'lingo-wp-translator') . '</label>'; // Accessible label
+        $output .= '<select id="lingo-language-select" class="lingo-language-select" onchange="window.location.href = this.value;">';
 
         foreach ($translation_group as $locale => $translated_post_id) {
-            $link_class = ($locale === $current_locale) ? 'class="current-language"' : '';
             $post_link = get_permalink($translated_post_id);
 
-            // Double check if post exists and is published (or desired status)
-            if ($post_link && get_post_status($translated_post_id) === 'publish') { // Only show published translations
-                 $output .= '<li><a href="' . esc_url($post_link) . '" ' . $link_class . '>' . esc_html(strtoupper($locale)) . '</a></li>';
+            // Double check if post exists and is published
+            if ($post_link && get_post_status($translated_post_id) === 'publish') {
+                $selected = ($locale === $current_locale) ? 'selected' : '';
+                $output .= '<option value="' . esc_url($post_link) . '" ' . $selected . '>' . esc_html(strtoupper($locale)) . '</option>';
             }
         }
 
-        $output .= '</ul>';
+        $output .= '</select>';
         $output .= '</div>';
 
         return $output;
@@ -540,22 +541,22 @@ class LingoLocalizationPlugin
         // Only load on our specific admin settings page
         if ($hook === 'settings_page_lingo-wp-translator-settings') {
             wp_enqueue_script(
-                'lingo-admin-test-js',
-                LINGO_PLUGIN_URL . 'assets/js/admin-test.js',
+                'lingo-admin-js',
+                LINGO_PLUGIN_URL . 'assets/js/admin.js',
                 array('jquery'),
                 LINGO_PLUGIN_VERSION,
                 true // Load in footer
             );
             
             wp_enqueue_style(
-                'lingo-admin-test-css',
-                LINGO_PLUGIN_URL . 'assets/css/admin-test.css',
+                'lingo-admin-css',
+                LINGO_PLUGIN_URL . 'assets/css/admin.css',
                 array(),
                 LINGO_PLUGIN_VERSION
             );
             
             // Pass PHP variables to JavaScript
-            wp_localize_script('lingo-admin-test-js', 'lingoAjax', array(
+            wp_localize_script('lingo-admin-js', 'lingoAjax', array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'nonce'   => wp_create_nonce('lingo_ajax_nonce') // Security nonce
             ));
